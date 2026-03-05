@@ -21,7 +21,7 @@ func Init(path string) (*viper.Viper, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer f.Close()
+	defer func() { _ = f.Close() }()
 
 	// Parse the configuration file contents.
 	if err := cfg.ReadConfig(f); err != nil {
@@ -66,7 +66,7 @@ func InitDefaults(path, defaultConfig string) (*viper.Viper, error) {
 		}
 		return nil, err
 	}
-	defer f.Close()
+	defer func() { _ = f.Close() }()
 
 	return InitDefaultsR(f, defaultConfig)
 }
